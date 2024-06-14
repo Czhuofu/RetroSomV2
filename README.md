@@ -19,7 +19,7 @@ The input file for this pipeline is a Bam file. If the size of the Bam file you 
 For example: bigbam.bam -> bigbam-1.bam bigbam-2.bam bigbam-3.bam ... (start from 1)
 Recommend using samtools split for split.
 
-### analyze control first ###
+### Analyze control first 
 
 $yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
 
@@ -43,31 +43,31 @@ $yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
 
    -e ControlID
 
-Then run the step2 to merge the result of Control:
+** Then run the step2 to merge the result of Control: **
 
 $yourdownloadpath/Singularity_Slurm_RetroSom.step2.sh \
   
-  -o /directory_path_for_output \
+    -o /directory_path_for_output \
   
-  -i ControlID \
+    -i ControlID \
   
-  -m $yourdownloadpath \
+    -m $yourdownloadpath \
   
-  -r 1 \
+    -r 1 \
   
-  -g b37 (default hg38, supporting hg38, hg19 and b37) \
+    -g b37 (default hg38, supporting hg38, hg19 and b37) \
   
-  -t 0 \
+    -t 0 \
   
-  -c /ControlID.bam \
+    -c /ControlID.bam \
   
-  -n 150 (maximum number of supporting reads to be considered as a putative soamtic insertion) \
+    -n 150 (maximum number of supporting reads to be considered as a putative soamtic insertion) \
   
-  -p 0.1 p_value cutoff (default p<0.1) \
+    -p 0.1 p_value cutoff (default p<0.1) \
+   
+    -e ControlID \
   
-  -e ControlID \
-  
-  -l 1 (number of bam you split)
+    -l 1 (number of bam you split)
 
 
 
