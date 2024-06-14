@@ -45,7 +45,7 @@ $yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
    -e ControlID
 ```
 
-** Then run the step2 to merge the result of Control: **
+**Then run the step2 to merge the result of Control:**
 
 ```
 $yourdownloadpath/Singularity_Slurm_RetroSom.step2.sh \
@@ -101,7 +101,7 @@ $yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
    -e ControlID_NoModel
 ```
 
-** Then run the step2 to merge the result of Case: **
+**Then run the step2 to merge the result of Case:**
 
 ```
 $yourdownloadpath/Singularity_Slurm_RetroSom.step2.sh \
