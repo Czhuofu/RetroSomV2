@@ -18,7 +18,7 @@ This pipeline is divided into two parts, Singularity_Slurm_RetroSomV2.6.sh, incl
 The input file for this pipeline is a Bam file. If the size of the Bam file you input is greater than 200G, please split it and name it with a suffix of - and a number.
 
 For example: bigbam.bam &rarr; bigbam-1.bam bigbam-2.bam bigbam-3.bam ... (start from 1)
-Recommend using samtools split for split.
+Recommend using samtools split for split. If you only have one Bam file, please also add the -1 suffix to the bam file.
 
 ### Analyze control first 
 
