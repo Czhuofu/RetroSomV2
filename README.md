@@ -16,7 +16,8 @@ For example, set the directory you download the RetroSomV2 as $yourdownloadpath
 ### Usage
 This pipeline is divided into two parts, Singularity_Slurm_RetroSomV2.6.sh, including steps 1-6 in the workflow above; and Singularity_Slurm-RetroSom.step2.sh, which includes Step7-8 in the workflow above.
 The input file for this pipeline is a Bam file. If the size of the Bam file you input is greater than 200G, please split it and name it with a suffix of - and a number.
-For example: bigbam.bam -> bigbam-1.bam bigbam-2.bam bigbam-3.bam ... (start from 1)
+
+For example: bigbam.bam &rarr; bigbam-1.bam bigbam-2.bam bigbam-3.bam ... (start from 1)
 Recommend using samtools split for split.
 
 ### Analyze control first 
