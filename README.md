@@ -75,7 +75,7 @@ $yourdownloadpath/Singularity_Slurm_RetroSom.step2.sh \
 
 ### Analyze case next
 
-** Please ensure that the case and control use the same output path. **
+**Please ensure that the case and control use the same output path.**
 
 ```
 $yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
