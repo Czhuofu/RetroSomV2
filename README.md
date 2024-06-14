@@ -1,4 +1,4 @@
-# A breif introduction for RetroSomV2
+# A brief introduction for RetroSomV2
 ## Installation instructions
 Basically, all the files were storage in the GITHUB.
 Due to GitHub's file size restrictions, some large files/folder have been placed in Google Drive. You should download them from the link below and place them in the corresponding location.
