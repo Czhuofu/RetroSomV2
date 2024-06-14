@@ -21,6 +21,7 @@ Recommend using samtools split for split.
 
 ### Analyze control first 
 
+```
 $yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
 
    -o /directory_path_for_output \
@@ -42,6 +43,7 @@ $yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
    -p 0.1 p_value cutoff (default p<0.1) \
 
    -e ControlID
+```
 
 ** Then run the step2 to merge the result of Control: **
 
@@ -71,9 +73,63 @@ $yourdownloadpath/Singularity_Slurm_RetroSom.step2.sh \
    -l 1 (number of bam you split)
 ```
 
+### Analyze case next
 
+** Please ensure that the case and control use the same output path. **
 
+```
+$yourdownloadpath/Singularity_Slurm_RetroSomV2.6.sh \
 
+   -o /directory_path_for_output \
+
+   -i CaseID \
+
+   -m $yourdownloadpath \
+
+   -r 1 \
+
+   -g b37 (default hg38, supporting hg38, hg19 and b37)\
+
+   -t 3 \
+
+   -c /CaseID.bam \
+
+   -n 150 (maximum number of supporting reads to be considered as a putative soamtic insertion) \
+
+   -p 0.1 p_value cutoff (default p<0.1) \
+
+   -e ControlID_NoModel
+```
+
+** Then run the step2 to merge the result of Case: **
+
+```
+$yourdownloadpath/Singularity_Slurm_RetroSom.step2.sh \
+  
+   -o /directory_path_for_output \
+  
+   -i CaseID \
+  
+   -m $yourdownloadpath \
+  
+   -r 1 \
+  
+   -g b37 (default hg38, supporting hg38, hg19 and b37) \
+  
+   -t 0 \
+  
+   -c /CaseID.bam \
+  
+   -n 150 (maximum number of supporting reads to be considered as a putative soamtic insertion) \
+  
+   -p 0.1 p_value cutoff (default p<0.1) \
+   
+   -e ControlID_NoModel \
+  
+   -l 1 (number of bam you split)
+```
+
+A folder called CaseID_NoModel will be generated, result svg will be in CaseID_NoModel/visual/
 
 
 
