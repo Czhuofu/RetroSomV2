@@ -1,0 +1,7 @@
+outpath=$1
+ver=$2
+masterpath=$3
+sub=$4
+while read line; do
+   $masterpath/ALU/02_PE_level0/03_combine_PE.pl $line $ver $outpath
+done < $outpath/$sub/list.txt
