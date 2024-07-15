@@ -157,10 +157,10 @@ jid5d1=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath 
 ###################################################
 ### Step6: Level1 prediction with RF, NB and LR ###
 ###################################################
-jid6a0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06a_RetroS1_L1PE $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J L1PEl1 $slurm_sc --dependency=afterok:$jid5a0:$jid5a1 | awk '{print $4}')
-jid6b0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06b_RetroS1_L1SR $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J L1SRl1 $slurm_sc --dependency=afterok:$jid5b0:$jid5b1 | awk '{print $4}')
-jid6c0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06c_RetroS1_AluPE $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J AluPEl1 $slurm_sc --dependency=afterok:$jid5c0:$jid5c1 | awk '{print $4}')
-jid6d0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06d_RetroS1_AluSR $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J AluSRl1 $slurm_sc --dependency=afterok:$jid5d0:$jid5d1 | awk '{print $4}')
+#jid6a0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06a_RetroS1_L1PE $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J L1PEl1 $slurm_sc --dependency=afterok:$jid5a0:$jid5a1 | awk '{print $4}')
+#jid6b0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06b_RetroS1_L1SR $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J L1SRl1 $slurm_sc --dependency=afterok:$jid5b0:$jid5b1 | awk '{print $4}')
+#jid6c0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06c_RetroS1_AluPE $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J AluPEl1 $slurm_sc --dependency=afterok:$jid5c0:$jid5c1 | awk '{print $4}')
+#jid6d0=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06d_RetroS1_AluSR $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J AluSRl1 $slurm_sc --dependency=afterok:$jid5d0:$jid5d1 | awk '{print $4}')
 
 jid6a=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06a_Level1_L1PE $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J L1PEl1 $slurm_sc --dependency=afterok:$jid5a0:$jid5a1 | awk '{print $4}')
 jid6b=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06b_Level1_L1SR $masterpath/pipeline/RetroSomV2.6.sif -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J L1SRl1 $slurm_sc --dependency=afterok:$jid5b0:$jid5b1 | awk '{print $4}')
