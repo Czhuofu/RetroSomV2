@@ -1,6 +1,6 @@
 #! /bin/bash
 
-usage="$(basename "$0") [-h] [-o i m r g t a b c n p e l s u d] -- Discovering somatic MEI insertions supported with >=2 reads.
+usage="$(basename "$0") [-h] [-o i m r g n p e l s u d f] -- Discovering somatic MEI insertions supported with >=2 reads.
 
 where:
     -h  show this help text
@@ -9,10 +9,6 @@ where:
     -m  masterpath
     -r  version control for RetroSom (default 1)
     -g  reference genome (default hg38, supporting hg38, hg19 and b37)
-    -t  type of input (1=raw_sequencing_reads;2=BAM_to_be_realigned; 3=BAM_to_be_cleaned; 4=cleaned_BAM)
-    -a  seqeuncing read1 (required if input are raw sequencing reads, input==1)
-    -b  sequencing read2 (required if input are raw sequencing reads, input==1)
-    -c  input BAM file (input==2 or 3) (delete)
     -n  maximum number of supporting reads to be considered as a putative soamtic insertion (default 100)
     -p  p_value cutoff (default p<0.1)
     -e  control/normal tissue
@@ -30,7 +26,7 @@ slurmshortags="\"-A aeurban -p batch --mem=50gb --time=100:00:00\""
 slurmlongags="\"-A aeurban -p batch --time=160:00:00 --ntasks=1 --cpus-per-task=10 --mem-per-cpu=25gb\""
 deleteIntermediateFiles=false
 
-while getopts ":ho:i:m:r:t:g:a:b:c:n:p:e:l:s:u:d:" opt; do
+while getopts ":ho:i:m:r:g:n:p:e:l:s:u:d:f:" opt; do
   case $opt in
     h) echo "$usage"
        exit
@@ -43,15 +39,7 @@ while getopts ":ho:i:m:r:t:g:a:b:c:n:p:e:l:s:u:d:" opt; do
        ;;
     r) ver="$OPTARG"
        ;;
-    t) datatype="$OPTARG"
-       ;;
     g) hg="$OPTARG"
-       ;;
-    a) read1=$(readlink -f $OPTARG)
-       ;;
-    b) read2=$(readlink -f $OPTARG)
-       ;;
-    c) bam=$(readlink -f $OPTARG)
        ;;
     n) maxreads="$OPTARG"
        ;;
@@ -95,23 +83,9 @@ cd $outpath/$sub/script
 cp $masterpath/pipeline/*sh $outpath/$sub/script
 export TMPDIR=$outpath/$sub/script
 
-### updating the location of the reference sequences ###
-echo -e "Alu\t$masterpath/refTE/sequence/ALU.fa" > $masterpath/refTE/TE_ALHS.bed
-echo -e "L1\t$masterpath/refTE/sequence/L1HS.fa" >> $masterpath/refTE/TE_ALHS.bed
-echo -e "HERVK\t$masterpath/refTE/sequence/HERVK.fa" >> $masterpath/refTE/TE_ALHS.bed
-echo -e "HERVH\t$masterpath/refTE/sequence/HERVH.fa" >> $masterpath/refTE/TE_ALHS.bed
-echo -e "SVA\t$masterpath/refTE/sequence/SVA.fa" >> $masterpath/refTE/TE_ALHS.bed
 
-#################################
-### Step1: Sequence Alignment ###
-################################# 
-# Input Type 1: raw sequencing reads ### 
-# Input Type 2: aligned reads to be realigned ### 
-# Input Type 3: aligned reads (no realignment) ### 
 slurm_sc="-o $outpath/$sub/logs/%x.%A.output -e $outpath/$sub/logs/%x.%A.err $slurmshortags" 
 slurm_mc="-o $outpath/$sub/logs/%x.%A.output -e $outpath/$sub/logs/%x.%A.err $slurmlongags" 
-
-export TMPDIR=$outpath/$sub/script
 ###########################################
 ### Step7: Pairing the supporting reads ###
 ###########################################

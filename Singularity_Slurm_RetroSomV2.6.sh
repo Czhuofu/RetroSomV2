@@ -1,18 +1,5 @@
 #! /bin/bash
 
-### rebuilt after SCG's update on singularity ###
-### add -B /local/scratch/xwzhu/ for exonerate and Sort, as the temporary folder ###
-
-### Change script (07/24/2024, Junseok Park, junseok.park@childrens.harvard.edu)
-### Running script is changed for O2 execution
-### Change Singularity Image Path
-## Original: /pipeline/RetroSomV2.5.sif
-## O2:/n/app/singularity/containers/jp394/RetroSomV2.5.sif
-## Original code: $sifimagepath 
-## Changed code: $sifimagepath
-## added option: s (singularity), f (temp file location)
-
-
 usage="$(basename "$0") [-h] [-o i m r g t a b c n p e s f u l] -- Discovering somatic MEI insertions supported with >=2 reads.
 
 where:
