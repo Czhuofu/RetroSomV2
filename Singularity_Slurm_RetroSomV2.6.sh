@@ -106,12 +106,76 @@ cd $outpath/$sub/script
 cp $masterpath/pipeline/*sh $outpath/$sub/script
 export TMPDIR=$outpath/$sub/script
 
-# ### updating the location of the reference sequences ###
-echo -e "Alu\t$masterpath/refTE/sequence/ALU.fa" > $masterpath/refTE/TE_ALHS.bed
-echo -e "L1\t$masterpath/refTE/sequence/L1HS.fa" >> $masterpath/refTE/TE_ALHS.bed
-echo -e "HERVK\t$masterpath/refTE/sequence/HERVK.fa" >> $masterpath/refTE/TE_ALHS.bed
-echo -e "HERVH\t$masterpath/refTE/sequence/HERVH.fa" >> $masterpath/refTE/TE_ALHS.bed
-echo -e "SVA\t$masterpath/refTE/sequence/SVA.fa" >> $masterpath/refTE/TE_ALHS.bed
+### updating the location of the reference sequences ###
+remove_trailing_slash() {
+   local input_string="$1"
+   echo "${input_string%/}"
+}
+
+get_TE_string() {
+   local te="$1"
+   local fileNameWithDir="$2"
+   local fileName="${fileNameWithDir##*/}" # Extract the file name
+
+   case "$te" in
+         "L1")
+            if [[ "$fileName" == "refTE_RM.tab" ]]; then
+               echo "LINE1"
+            else
+               echo "L1HS"
+            fi
+            ;;
+         "MER11")
+            echo "MER11B"
+            ;;
+         "L1MD")
+            echo "L1MD1_3end"
+            ;;
+         "AluSx")
+            echo "AluSx"
+            ;;
+         *)
+            echo "$te" | tr '[:lower:]' '[:upper:]'
+            ;;
+   esac
+}
+
+add_lines_for_te_ref_beds() {
+
+   local TEs=("${!1}")
+   local linePrefix=$2
+   local fileNameWithDir=$3
+   local extension=$4
+
+   > "$fileNameWithDir"
+   for te in "${TEs[@]}"; do
+      te_string=$(get_TE_string "$te" "$fileNameWithDir")
+      echo -e "${te}\t${linePrefix}${te_string}.${extension}" >> "$fileNameWithDir"
+   done
+
+}
+
+create_te_ref_beds() {
+   local masterpath=$(remove_trailing_slash "$1")
+   local bed_file_dir="$masterpath/refTE"
+
+   local TEs=("Alu" "L1" "HERVK" "HERVH" "SVA")
+   add_lines_for_te_ref_beds TEs[@] "${masterpath}/refTE/sequence/" "$bed_file_dir/TE_ALHS.bed" "fa"
+   
+   local TEs=("Alu" "L1")
+   add_lines_for_te_ref_beds TEs[@] "${masterpath}/refTE/position/hg19.fa_" "$bed_file_dir/refTE_RM.tab" "bed"
+   add_lines_for_te_ref_beds TEs[@] "${masterpath}/refTE/sequence/" "$bed_file_dir/TE_seq.bed" "fa"
+
+   local TEs=("Alu" "L1" "HERVK" "HERV17" "PRIMA41" "MER11" "HERVH")
+   add_lines_for_te_ref_beds TEs[@] "${masterpath}/refTE/sequence/" "$bed_file_dir/TE_HERV.bed" "fa"
+
+   local TEs=("AluSx" "L1MD1" "HERVK" "HERV17" "PRIMA41" "MER11" "HERVH")
+   add_lines_for_te_ref_beds TEs[@] "${masterpath}/refTE/sequence/" "$bed_file_dir/TE_MM9.bed" "fa"
+   echo -e "IAPEZ\t${masterpath}/refTE/mm9/IAPEZ.fa" >> "$bed_file_dir/TE_MM9.bed"
+}
+
+create_te_ref_beds $masterpath
+
 
 #################################
 ### Step1: Sequence Alignment ###
