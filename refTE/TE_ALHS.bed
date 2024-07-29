@@ -1,5 +1,5 @@
-Alu	/oak/stanford/scg/lab_dflev/xwzhu/RetroSom/packaging/RetroSomV2_Slurm_Docker/refTE/sequence/ALU.fa
-L1	/oak/stanford/scg/lab_dflev/xwzhu/RetroSom/packaging/RetroSomV2_Slurm_Docker/refTE/sequence/L1HS.fa
-HERVK	/oak/stanford/scg/lab_dflev/xwzhu/RetroSom/packaging/RetroSomV2_Slurm_Docker/refTE/sequence/HERVK.fa
-HERVH	/oak/stanford/scg/lab_dflev/xwzhu/RetroSom/packaging/RetroSomV2_Slurm_Docker/refTE/sequence/HERVH.fa
-SVA	/oak/stanford/scg/lab_dflev/xwzhu/RetroSom/packaging/RetroSomV2_Slurm_Docker/refTE/sequence/SVA.fa
+Alu	/n/data1/bch/genetics/lee/projects/SMaHT/tools/RetroSomV2-Zhuofu/refTE/sequence/ALU.fa
+L1	/n/data1/bch/genetics/lee/projects/SMaHT/tools/RetroSomV2-Zhuofu/refTE/sequence/L1HS.fa
+HERVK	/n/data1/bch/genetics/lee/projects/SMaHT/tools/RetroSomV2-Zhuofu/refTE/sequence/HERVK.fa
+HERVH	/n/data1/bch/genetics/lee/projects/SMaHT/tools/RetroSomV2-Zhuofu/refTE/sequence/HERVH.fa
+SVA	/n/data1/bch/genetics/lee/projects/SMaHT/tools/RetroSomV2-Zhuofu/refTE/sequence/SVA.fa

@@ -1,0 +1,5 @@
+# Ignore the specified files and directories
+pipeline/RetroSomV2.6.sif
+refTE/position
+LINE/02_PE_level1
+ALU/02_PE_level1
