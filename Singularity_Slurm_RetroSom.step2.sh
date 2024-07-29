@@ -1,6 +1,6 @@
 #! /bin/bash
 
-usage="$(basename "$0") [-h] [-o i m r g n p e l s u d f] -- Discovering somatic MEI insertions supported with >=2 reads.
+usage="$(basename "$0") [-h] [-o i m r g n p e l s u f] -- Discovering somatic MEI insertions supported with >=2 reads.
 
 where:
     -h  show this help text
@@ -15,7 +15,6 @@ where:
     -l  number of sequencing datasets
     -s  singularity image file path including image file name
     -u  slurm short partition options (default : '-A aeurban -p batch --mem=50gb --time=100:00:00' )
-    -d  slurm medium/long partition options (default: '-A aeurban -p batch --time=160:00:00 --ntasks=1 --cpus-per-task=10 --mem-per-cpu=25gb' )
     -f  delete intermediate file (default=FALSE) "
 
 ver=1
@@ -26,7 +25,7 @@ slurmshortags="\"-A aeurban -p batch --mem=50gb --time=100:00:00\""
 slurmlongags="\"-A aeurban -p batch --time=160:00:00 --ntasks=1 --cpus-per-task=10 --mem-per-cpu=25gb\""
 deleteIntermediateFiles=false
 
-while getopts ":ho:i:m:r:g:n:p:e:l:s:u:d:f:" opt; do
+while getopts ":ho:i:m:r:g:n:p:e:l:s:u:f:" opt; do
   case $opt in
     h) echo "$usage"
        exit
@@ -52,8 +51,6 @@ while getopts ":ho:i:m:r:g:n:p:e:l:s:u:d:f:" opt; do
     s) sifimagepath="$OPTARG"
        ;;
     u) slurmshortags="$OPTARG"
-       ;;
-    d) slurmlongags="$OPTARG"
        ;;
     f) deleteIntermediateFiles="$OPTARG"
        ;; 
@@ -83,9 +80,8 @@ cd $outpath/$sub/script
 cp $masterpath/pipeline/*sh $outpath/$sub/script
 export TMPDIR=$outpath/$sub/script
 
-
 slurm_sc="-o $outpath/$sub/logs/%x.%A.output -e $outpath/$sub/logs/%x.%A.err $slurmshortags" 
-slurm_mc="-o $outpath/$sub/logs/%x.%A.output -e $outpath/$sub/logs/%x.%A.err $slurmlongags" 
+
 ###########################################
 ### Step7: Pairing the supporting reads ###
 ###########################################
