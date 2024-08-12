@@ -102,7 +102,7 @@ jid8b=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$masterpath --app 08b_
 ########################################
 ### Step9: delete intermediate files ###
 ########################################
-if deleteIntermediateFiles; then 
+if $deleteIntermediateFiles; then 
    jid9=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$masterpath --app 09_delete_non_essentialFiles $sifimagepath -t $outpath" | sbatch -J DeleteFiles $slurm_sc --dependency=afterok:$jid8a:$jid8b | awk '{print $4}')
 else
    echo "intermediate file will not be deleted"

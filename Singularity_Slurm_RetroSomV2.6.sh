@@ -30,7 +30,7 @@ slurmshortags="\"-A aeurban -p batch --mem=50gb --time=100:00:00\""
 slurmlongags="\"-A aeurban -p batch --time=160:00:00 --ntasks=1 --cpus-per-task=10 --mem-per-cpu=25gb\""
 tmppath=/local/scratch/xwzhu/
 
-while getopts ":ho:i:m:r:t:g:a:b:c:n:p:e:" opt; do
+while getopts ":ho:i:m:r:t:g:a:b:c:n:p:e:s:f:u:l:" opt; do
   case $opt in
     h) echo "$usage"
        exit
@@ -172,6 +172,7 @@ create_te_ref_beds $masterpath
 # Input Type 3: aligned reads (no realignment) ### 
 slurm_sc="-o $outpath/$sub/logs/%x.%A.output -e $outpath/$sub/logs/%x.%A.err $slurmshortags" 
 slurm_mc="-o $outpath/$sub/logs/%x.%A.output -e $outpath/$sub/logs/%x.%A.err $slurmlongags" 
+slurm_lc=$slurm_mc
 
 if [ "$datatype" == 1 ]
 then
@@ -212,6 +213,7 @@ jid3a=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath,$
 jid3b=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 03b_call_putative_MEI $sifimagepath -o $outpath -i $sub -m $masterpath -r $ver -g $hg -s 0 -f 1" | sbatch -J 3.2.PutMEI $slurm_sc --dependency=afterok:$jid2:$jid3a | awk '{print $4}')
 # insertions in +strand #
 jid3c=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 03b_call_putative_MEI $sifimagepath -o $outpath -i $sub -m $masterpath -r $ver -g $hg -s 1 -f 1" | sbatch -J 3.3.PutMEI $slurm_sc --dependency=afterok:$jid2:$jid3a | awk '{print $4}')
+
 ######################################################
 ### Step4: Remapping L1HS or AluY specific Alleles ###
 ######################################################
@@ -234,7 +236,6 @@ jid5b1=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath 
 jid5c1=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 05c_matrix_gen_AluPE $sifimagepath -o $outpath -i $sub -m $masterpath -r $ver -g $hg -s 1" | sbatch -J 5.2.AluPEMat $slurm_sc --dependency=afterok:$jid3c:$jid4b | awk '{print $4}')
 jid5d1=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 05d_matrix_gen_AluSR $sifimagepath -o $outpath -i $sub -m $masterpath -r $ver -g $hg -s 1" | sbatch -J 5.2.AluSRMat $slurm_sc --dependency=afterok:$jid3c:$jid4b | awk '{print $4}')
 
-
 ###################################################
 ### Step6: Level1 prediction with RF, NB and LR ###
 ###################################################
@@ -242,5 +243,3 @@ jid6a=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath -
 jid6b=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06b_Level1_L1SR $sifimagepath -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J 6.2.L1SRl1 $slurm_sc --dependency=afterok:$jid5b0:$jid5b1  | awk '{print $4}')
 jid6c=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06c_Level1_AluPE $sifimagepath -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J 6.2.AluPEl1 $slurm_sc --dependency=afterok:$jid5c0:$jid5c1 | awk '{print $4}')
 jid6d=$(echo -e '#!/bin/sh\n'"singularity run -B $outpath,$tmppath,$masterpath --app 06d_Level1_AluSR $sifimagepath -o $outpath -i $sub -m $masterpath -r $ver" | sbatch -J 6.2.AluSRl1 $slurm_sc --dependency=afterok:$jid5d0:$jid5d1  | awk '{print $4}')
-
-
